@@ -2,6 +2,7 @@
   "name": "pet-refuge",
   "version": "0.1.0",
   "private": true,
+  "author": "100lvlmaster",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

@@ -7,11 +7,12 @@ import {
   InputGroup,
   Input,
   Text,
+  Flex,
 } from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
 import { SignUpInput } from "lib/types";
 import { useState } from "react";
-
+import NextLink from "next/link";
 import AuthPageContainer from "../components/auth_page_container";
 
 const SignUpPage = () => {
@@ -155,6 +156,16 @@ const SignUpPage = () => {
           </Form>
         )}
       </Formik>
+      <Flex p="10" flexDirection="row" align="center" experimental_spaceX="2">
+        <Text>Already a user?</Text>
+        <NextLink href="/signin">
+          <a>
+            <Text fontWeight="bold" decoration="underline">
+              Sign In
+            </Text>
+          </a>
+        </NextLink>
+      </Flex>
     </AuthPageContainer>
   );
 };
