@@ -8,6 +8,7 @@ import {
   Text,
   Flex,
   Button,
+  useToast,
 } from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
 import AuthPageContainer from "components/auth_page_container";
@@ -15,9 +16,42 @@ import { SignInInput } from "lib/types";
 import { useState } from "react";
 import NextLink from "next/link";
 import Head from "next/head";
+import { useMutation } from "@apollo/client";
+import { signInMutation } from "lib/mutations";
+import { userStore } from "lib/auth";
+import { useRouter } from "next/router";
 const SignInPage = () => {
+  const router = useRouter();
+  const toast = useToast();
+  const setToken = userStore((state) => state.setToken);
   const [obscureText, setObscureText] = useState(false);
   const handleClick = () => setObscureText(!obscureText);
+  const [signIn] = useMutation(signInMutation, {
+    onCompleted: async (data) => {
+      setToken(data.login);
+      toast({
+        title: "Logged in successfully",
+        description: "",
+        status: "success",
+        duration: 6000,
+        isClosable: true,
+      });
+      router.push(`/`);
+    },
+    onError: (err) => {
+      if (`${err.message}`.toLowerCase().includes("bad request")) {
+        err.message = `Invalid input, please check input and try again`;
+      }
+      toast({
+        title: "Something went wrong",
+        description: err.message,
+        status: "error",
+        duration: 6000,
+        isClosable: true,
+      });
+    },
+  });
+
   //
   const validateData = (value: SignInInput) => {
     const errors: SignInInput = {};
@@ -27,7 +61,7 @@ const SignInPage = () => {
     if (!value.email) {
       errors.email = "Email cannot be empty";
     }
-
+    1;
     return errors;
   };
   return (
@@ -48,23 +82,20 @@ const SignInPage = () => {
       <Formik
         initialValues={
           {
-            firstName: "",
-            lastName: "",
             password: "",
             email: "",
           } as SignInInput
         }
-        onSubmit={(values, actions) => {
+        onSubmit={async (values, actions) => {
           const errors = validateData(values);
-          if (errors) {
+          if (Object.keys(errors).length !== 0) {
             actions.setErrors({ ...errors });
             actions.setSubmitting(false);
             return;
           }
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            actions.setSubmitting(false);
-          }, 1000);
+
+          await signIn({ variables: { loginData: { ...values } } });
+          actions.setSubmitting(false);
         }}
       >
         {(props) => (

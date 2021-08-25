@@ -15,6 +15,7 @@ specifiers:
   react: 17.0.2
   react-dom: 17.0.2
   typescript: 4.3.5
+  zustand: ^3.5.9
 
 dependencies:
   '@apollo/client': 3.4.8_graphql@15.5.1+react@17.0.2
@@ -27,6 +28,7 @@ dependencies:
   next: 11.1.0_f31b35bdaa3b7c2fce82404f09d2dac4
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
+  zustand: 3.5.9_react@17.0.2
 
 devDependencies:
   '@types/react': 17.0.19
@@ -4491,4 +4493,15 @@ packages:
 
   /zen-observable/0.8.15:
     resolution: {integrity: sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==}
+    dev: false
+
+  /zustand/3.5.9_react@17.0.2:
+    resolution: {integrity: sha512-ELj8XLrf5TZoiffbsZKaJ0uGnT1t4PGU9IgFLfiLsjMhOXFfKEl3fEUa5mNAWTzrietJuA1R2YY6GBE1siyE5Q==}
+    peerDependencies:
+      react: '>=16.8'
+    peerDependenciesMeta:
+      react:
+        optional: true
+    dependencies:
+      react: 17.0.2
     dev: false

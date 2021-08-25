@@ -8,6 +8,7 @@ import {
   Input,
   Text,
   Flex,
+  useToast,
 } from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
 import { SignUpInput } from "lib/types";
@@ -17,12 +18,48 @@ import AuthPageContainer from "../components/auth_page_container";
 import Head from "next/head";
 import { useMutation } from "@apollo/client";
 import { signUpMutation } from "lib/mutations";
-
+import { userStore } from "lib/auth";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 const SignUpPage = () => {
+  const toast = useToast();
+  const router = useRouter();
   const [obscureText, setObscureText] = useState(false);
   const handleClick = () => setObscureText(!obscureText);
-  const [signUp, { data, loading, error }] = useMutation(signUpMutation);
-
+  const [setStore, initStore, token] = userStore((state) => [
+    state.setToken,
+    state.initToken,
+    state.token,
+  ]);
+  const [signUp] = useMutation(signUpMutation, {
+    onCompleted: async (data) => {
+      setStore(data.signup);
+      await toast({
+        title: "Signed up successfully",
+        status: "success",
+        duration: 6000,
+        isClosable: true,
+      });
+      router.push(`/`);
+    },
+    onError: (err) => {
+      if (err.message.toLowerCase().includes("bad request")) {
+        err.message = "Invalid input, please check input and try again";
+      }
+      toast({
+        title: "Something went wrong",
+        description: err.message,
+        status: "error",
+        duration: 6000,
+        isClosable: true,
+      });
+    },
+  });
+  useEffect(() => {
+    if (!token) {
+      initStore();
+    }
+  }, []);
   //
   const validateData = (value: SignUpInput) => {
     const errors: SignUpInput = {};
@@ -41,6 +78,7 @@ const SignUpPage = () => {
 
     return errors;
   };
+
   return (
     <AuthPageContainer>
       <Head>
@@ -59,7 +97,7 @@ const SignUpPage = () => {
       <Formik
         initialValues={
           {
-            firstName: "",
+            firstname: "",
             lastname: "",
             password: "",
             email: "",
@@ -72,15 +110,10 @@ const SignUpPage = () => {
             actions.setSubmitting(false);
             return;
           }
-          signUp({
+          await signUp({
             variables: { signupData: { ...values } },
           });
-          console.log(`graphql error ${error}`);
-
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            actions.setSubmitting(false);
-          }, 1000);
+          actions.setSubmitting(false);
         }}
       >
         {(props) => (

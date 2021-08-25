@@ -15,3 +15,18 @@ export const signUpMutation = gql`
     }
   }
 `;
+export const signInMutation = gql`
+  mutation Mutation($loginData: LoginInput!) {
+    login(data: $loginData) {
+      accessToken
+      refreshToken
+      user {
+        firstname
+        email
+        id
+        lastname
+        createdAt
+      }
+    }
+  }
+`;
