@@ -1,6 +1,6 @@
 export interface SignUpInput {
-  firstName?: string;
-  lastName?: string;
+  firstname?: string;
+  lastname?: string;
   email?: string;
   password?: string;
 }
@@ -40,4 +40,9 @@ export interface Category extends BaseModel {
   description: string;
   mediaUrl: string[];
   products?: Product[];
+}
+export interface Token {
+  user?: User;
+  acessToken: string;
+  refreshToken: string;
 }

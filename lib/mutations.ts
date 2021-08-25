@@ -1,7 +1,7 @@
 import { SignUpInput } from "lib/types";
 import { gql } from "@apollo/client";
 /// SignUp query
-const signUpMutation = (input: SignUpInput) => gql`
+export const signUpMutation = gql`
   mutation SignupMutation($signupData: SignupInput!) {
     signup(data: $signupData) {
       refreshToken

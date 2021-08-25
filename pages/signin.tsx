@@ -14,6 +14,7 @@ import AuthPageContainer from "components/auth_page_container";
 import { SignInInput } from "lib/types";
 import { useState } from "react";
 import NextLink from "next/link";
+import Head from "next/head";
 const SignInPage = () => {
   const [obscureText, setObscureText] = useState(false);
   const handleClick = () => setObscureText(!obscureText);
@@ -31,6 +32,19 @@ const SignInPage = () => {
   };
   return (
     <AuthPageContainer>
+      <Head>
+        <title>Sign In</title>
+      </Head>
+      <Text
+        data="Sign Up"
+        textAlign="left"
+        fontWeight="bold"
+        fontSize="25"
+        textColor="black"
+        padding="10px"
+      >
+        Sign In
+      </Text>
       <Formik
         initialValues={
           {

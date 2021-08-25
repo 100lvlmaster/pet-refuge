@@ -14,18 +14,23 @@ import { SignUpInput } from "lib/types";
 import { useState } from "react";
 import NextLink from "next/link";
 import AuthPageContainer from "../components/auth_page_container";
+import Head from "next/head";
+import { useMutation } from "@apollo/client";
+import { signUpMutation } from "lib/mutations";
 
 const SignUpPage = () => {
   const [obscureText, setObscureText] = useState(false);
   const handleClick = () => setObscureText(!obscureText);
+  const [signUp, { data, loading, error }] = useMutation(signUpMutation);
+
   //
   const validateData = (value: SignUpInput) => {
     const errors: SignUpInput = {};
-    if (!value.firstName) {
-      errors.firstName = "First name cannot be empty";
+    if (!value.firstname) {
+      errors.firstname = "First name cannot be empty";
     }
-    if (!value.lastName) {
-      errors.lastName = "Last name cannot be empty";
+    if (!value.lastname) {
+      errors.lastname = "Last name cannot be empty";
     }
     if (!value.password) {
       errors.password = "Password cannot be empty";
@@ -38,6 +43,9 @@ const SignUpPage = () => {
   };
   return (
     <AuthPageContainer>
+      <Head>
+        <title>Sign Up</title>
+      </Head>
       <Text
         data="Sign Up"
         textAlign="left"
@@ -52,18 +60,23 @@ const SignUpPage = () => {
         initialValues={
           {
             firstName: "",
-            lastName: "",
+            lastname: "",
             password: "",
             email: "",
           } as SignUpInput
         }
-        onSubmit={(values, actions) => {
+        onSubmit={async (values, actions) => {
           const errors = validateData(values);
-          if (errors) {
-            actions.setErrors({ ...errors });
+          if (Object.keys(errors).length !== 0) {
+            actions.setErrors(errors);
             actions.setSubmitting(false);
             return;
           }
+          signUp({
+            variables: { signupData: { ...values } },
+          });
+          console.log(`graphql error ${error}`);
+
           setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
             actions.setSubmitting(false);
@@ -71,30 +84,30 @@ const SignUpPage = () => {
         }}
       >
         {(props) => (
-          <Form id="signup-form">
-            <Field name="firstName">
+          <Form>
+            <Field name="firstname">
               {({ field, form }: any) => (
                 <FormControl
-                  isInvalid={form.errors.firstName && form.touched.firstName}
+                  isInvalid={form.errors.firstname && form.touched.firstname}
                 >
-                  <FormLabel htmlFor="firstName" id="firstname">
+                  <FormLabel htmlFor="firstname" id="firstname">
                     First name
                   </FormLabel>
-                  <Input {...field} id="firstName" placeholder="John" />
-                  <FormErrorMessage>{form.errors.firstName}</FormErrorMessage>
+                  <Input {...field} id="firstname" placeholder="John" />
+                  <FormErrorMessage>{form.errors.firstname}</FormErrorMessage>
                 </FormControl>
               )}
             </Field>
-            <Field name="lastName">
+            <Field name="lastname">
               {({ field, form }: any) => (
                 <FormControl
-                  isInvalid={form.errors.lastName && form.touched.lastName}
+                  isInvalid={form.errors.lastname && form.touched.lastname}
                 >
-                  <FormLabel htmlFor="lastName" id="lastname">
+                  <FormLabel htmlFor="lastname" id="lastname">
                     Last name
                   </FormLabel>
-                  <Input {...field} id="lastName" placeholder="Doe" />
-                  <FormErrorMessage>{form.errors.lastName}</FormErrorMessage>
+                  <Input {...field} id="lastname" placeholder="Doe" />
+                  <FormErrorMessage>{form.errors.lastname}</FormErrorMessage>
                 </FormControl>
               )}
             </Field>

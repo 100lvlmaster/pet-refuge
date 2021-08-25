@@ -41,12 +41,12 @@ const Home: NextPage = () => {
             <Image src="favicon.png" alt="logo.png"></Image>
           </NextLink>
           <Input placeholder="Search .." />
-          <TabList>
+          <TabList id="tabs-list">
             <Tab id="tab-products">Products</Tab>
             <Tab id="tab-categories">Categories</Tab>
             <Tab id="tab-stores">Stores</Tab>
           </TabList>
-          <Spacer />
+          <Spacer id="nav-bar-spacer" />
           <a onClick={onOpen}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -59,19 +59,24 @@ const Home: NextPage = () => {
           </a>
 
           <NextLink href="/signin">
-            <Button border="1px" borderColor="black" variant="outline">
+            <Button
+              id="nav-bar-sign-in"
+              border="1px"
+              borderColor="black"
+              variant="outline"
+            >
               Sign In
             </Button>
           </NextLink>
         </Flex>
         <TabPanels id="panels">
-          <TabPanel id="products">
+          <TabPanel id="products-panel">
             <ProductsGrid />
           </TabPanel>
-          <TabPanel id="categories">
+          <TabPanel id="categories-panel">
             <CategoriesGrid />
           </TabPanel>
-          <TabPanel id="stores">
+          <TabPanel id="stores-panel">
             <StoresGrid />
           </TabPanel>
         </TabPanels>
