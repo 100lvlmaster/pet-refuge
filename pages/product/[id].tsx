@@ -10,6 +10,7 @@ import {
   Spacer,
   Input,
   Button,
+  HStack,
 } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
 import { productQuery } from "lib/queries";
@@ -28,23 +29,25 @@ const ProductPage = () => {
       variables: { productId: router.query.id },
     }
   );
+
   const handleImageClick = (i: number) => setImageIndex(i);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Flex flexDir="column" align="stretch" p="10" experimental_spaceY="5">
+    <Flex flexDir="column" align="stretch" experimental_spaceY="5">
       <Flex
         position="sticky"
         top="0"
-        bg="white"
+        bg="black"
         flexDir="row"
         align="center"
         w="full"
+        textColor="white"
         experimental_spaceX="5"
         p="3"
       >
         <NextLink href="/">
-          <Image src="favicon.png" alt="logo.png"></Image>
+          <Image src="/favicon.png" alt="logo.png"></Image>
         </NextLink>
         <Input placeholder="Search .." />
         {/* <TabList>
@@ -70,37 +73,49 @@ const ProductPage = () => {
           </Button>
         </NextLink>
       </Flex>
-      {loading ? (
-        <Spinner />
-      ) : (
-        <Flex flexDirection="row" experimental_spaceX="10">
-          <VStack>
-            {data?.product.mediaUrl.map((e, i) => (
-              <Image
-                onClick={() => handleImageClick(i)}
-                height="50px"
-                width="50px"
-                key={i}
-                src={e}
-                alt={e}
-              ></Image>
-            ))}
-          </VStack>
-          <Image
-            height="10rem"
-            src={data?.product.mediaUrl[imageIndex]}
-            alt={data?.product.mediaUrl[imageIndex]}
-          />
-          <VStack align="start">
-            <Text>{data?.product.price}</Text>
-            <Text>{data?.product.discount}</Text>
-            <Text>{data?.product.name}</Text>
-            <Text>{data?.product.description}</Text>
-          </VStack>
-        </Flex>
-      )}
-      <ProductsGrid />
-      <CartDrawer isOpen={isOpen} onClose={onClose} />
+      <Box px="10" py="5" experimental_spaceY="5">
+        {loading ? (
+          <Spinner />
+        ) : (
+          <Flex flexDirection="row" experimental_spaceX="10">
+            <VStack w="36">
+              {data?.product.mediaUrl.map((e, i) => (
+                <Image
+                  onClick={() => handleImageClick(i)}
+                  key={i}
+                  src={e}
+                  alt={e}
+                ></Image>
+              ))}
+            </VStack>
+            <Image
+              height="10rem"
+              src={data?.product.mediaUrl[imageIndex]}
+              alt={data?.product.mediaUrl[imageIndex]}
+            />
+            <VStack align="start">
+              <Text fontSize="lg" fontWeight="bold">
+                {data?.product.name}
+              </Text>
+              <Text>{data?.product.description}.</Text>
+              <HStack>
+                <Text>Price: </Text>
+                <Text textColor="green" fontWeight="bold">
+                  {data?.product.price} ₹
+                </Text>
+              </HStack>
+              <HStack>
+                <Text>Discount: </Text>
+                <Text textColor="red" fontWeight="bold">
+                  {data?.product.discount}%
+                </Text>
+              </HStack>
+            </VStack>
+          </Flex>
+        )}
+        <ProductsGrid />
+        <CartDrawer isOpen={isOpen} onClose={onClose} />
+      </Box>
     </Flex>
   );
 };

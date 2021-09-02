@@ -19,7 +19,7 @@ export const ProductsGrid = () => {
       placeContent="center"
     >
       {data?.products.map((e, i) => (
-        <NextLink key={i} href={`product/${e.id}`} replace passHref>
+        <NextLink key={i} href={`/product/${e.id}`} replace passHref>
           <a>
             <Box border="1px" borderRadius="5" borderColor="gray.300">
               <Image

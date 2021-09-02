@@ -24,9 +24,12 @@ import { CategoriesGrid } from "components/categories_grid";
 import { StoresGrid } from "components/stores_grid";
 import { CartDrawer } from "components/cart_drawer";
 import { userStore } from "lib/auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 ///
 const Home: NextPage = () => {
+  const [avatar, setAvatar] = useState("");
+  const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [initStore, token, clearToken] = userStore((state) => [
     state.initToken,
@@ -34,9 +37,13 @@ const Home: NextPage = () => {
     state.clearToken,
   ]);
   const onSignOut = () => clearToken();
+  const pushAdmin = () => {
+    router.push("/admin");
+  };
   useEffect(() => {
     initStore();
   }, []);
+
   return (
     <main>
       <Head>
@@ -74,12 +81,12 @@ const Home: NextPage = () => {
           </a>
           {token ? (
             <Menu>
-              <MenuButton
-                as={Avatar}
-                name={`${token.user?.firstname} ${token.user?.lastname}`}
-              />
+              <MenuButton>
+                <Avatar src={avatar} alt={`avatar.png`} />
+              </MenuButton>
               <MenuList>
                 <MenuItem onClick={onSignOut}>Sign Out</MenuItem>
+                <MenuItem onClick={pushAdmin}>Admin</MenuItem>
               </MenuList>
             </Menu>
           ) : (
