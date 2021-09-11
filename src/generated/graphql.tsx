@@ -23,49 +23,22 @@ export type Auth = {
   user: User;
 };
 
-export type Cart = {
-  __typename?: 'Cart';
-  /** Identifies the date and time when the object was created. */
-  createdAt: Scalars['Date'];
-  id: Scalars['ID'];
-  product: Product;
-  status: Scalars['String'];
-  /** Identifies the date and time when the object was last updated. */
-  updatedAt: Scalars['Date'];
-  user: User;
-};
-
-export type Category = {
-  __typename?: 'Category';
-  /** Identifies the date and time when the object was created. */
-  createdAt: Scalars['Date'];
-  description: Scalars['String'];
-  id: Scalars['ID'];
-  mediaUrl: Array<Scalars['String']>;
-  name: Scalars['String'];
-  products?: Maybe<Array<Product>>;
-  /** Identifies the date and time when the object was last updated. */
-  updatedAt: Scalars['Date'];
-};
+/** Product category */
+export enum Category {
+  Accessories = 'ACCESSORIES',
+  Food = 'FOOD',
+  Toys = 'TOYS'
+}
 
 export type ChangePasswordInput = {
   newPassword: Scalars['String'];
   oldPassword: Scalars['String'];
 };
 
-export type CreateCartInput = {
-  productId: Scalars['String'];
-  userId: Scalars['String'];
-};
-
-export type CreateCategoryInput = {
-  description: Scalars['String'];
-  mediaUrl: Array<Scalars['String']>;
-  name: Scalars['String'];
-};
-
 export type CreateOrderInput = {
+  category: Scalars['String'];
   productId: Scalars['String'];
+  quantity: Scalars['Int'];
   userId: Scalars['String'];
 };
 
@@ -75,7 +48,7 @@ export type CreatePostInput = {
 };
 
 export type CreateProductInput = {
-  categoryId: Scalars['String'];
+  category: Scalars['String'];
   description: Scalars['String'];
   discount: Scalars['Float'];
   mediaUrl: Array<Scalars['String']>;
@@ -99,22 +72,16 @@ export type LoginInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   changePassword: User;
-  createCart: Cart;
-  createCategory: Category;
   createOrder: Order;
   createPost: Post;
   createProduct: Product;
   createStore: Store;
   login: Auth;
   refreshToken: Token;
-  removeCart: Cart;
-  removeCategory: Category;
   removeOrder: Order;
   removeProduct: Product;
   removeStore: Store;
   signup: Auth;
-  updateCart: Cart;
-  updateCategory: Category;
   updateOrder: Order;
   updateProduct: Product;
   updateStore: Store;
@@ -124,16 +91,6 @@ export type Mutation = {
 
 export type MutationChangePasswordArgs = {
   data: ChangePasswordInput;
-};
-
-
-export type MutationCreateCartArgs = {
-  createCartInput: CreateCartInput;
-};
-
-
-export type MutationCreateCategoryArgs = {
-  createCategoryInput: CreateCategoryInput;
 };
 
 
@@ -167,16 +124,6 @@ export type MutationRefreshTokenArgs = {
 };
 
 
-export type MutationRemoveCartArgs = {
-  id: Scalars['String'];
-};
-
-
-export type MutationRemoveCategoryArgs = {
-  id: Scalars['String'];
-};
-
-
 export type MutationRemoveOrderArgs = {
   id: Scalars['ID'];
 };
@@ -194,16 +141,6 @@ export type MutationRemoveStoreArgs = {
 
 export type MutationSignupArgs = {
   data: SignupInput;
-};
-
-
-export type MutationUpdateCartArgs = {
-  updateCartInput: UpdateCartInput;
-};
-
-
-export type MutationUpdateCategoryArgs = {
-  updateCategoryInput: UpdateCategoryInput;
 };
 
 
@@ -310,10 +247,6 @@ export type Product = {
 
 export type Query = {
   __typename?: 'Query';
-  cart: Cart;
-  carts: Array<Cart>;
-  categories: Array<Category>;
-  category: Category;
   hello: Scalars['String'];
   helloWorld: Scalars['String'];
   me: User;
@@ -325,18 +258,7 @@ export type Query = {
   publishedPosts: PostConnection;
   store: Store;
   stores: Array<Store>;
-  userCart: Array<Cart>;
   userPosts: Array<Post>;
-};
-
-
-export type QueryCartArgs = {
-  id: Scalars['String'];
-};
-
-
-export type QueryCategoryArgs = {
-  id: Scalars['String'];
 };
 
 
@@ -376,19 +298,14 @@ export type QueryStoreArgs = {
 };
 
 
-export type QueryUserCartArgs = {
-  id: Scalars['String'];
-};
-
-
 export type QueryUserPostsArgs = {
   userId: Scalars['String'];
 };
 
 /** User role */
 export enum Role {
-  Admin = 'ADMIN',
-  User = 'USER'
+  Customer = 'CUSTOMER',
+  Merchant = 'MERCHANT'
 }
 
 export type SignupInput = {
@@ -420,27 +337,16 @@ export type Token = {
   refreshToken: Scalars['String'];
 };
 
-export type UpdateCartInput = {
-  id: Scalars['String'];
-  productId?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
-};
-
-export type UpdateCategoryInput = {
-  description?: Maybe<Scalars['String']>;
-  id: Scalars['String'];
-  mediaUrl?: Maybe<Array<Scalars['String']>>;
-  name?: Maybe<Scalars['String']>;
-};
-
 export type UpdateOrderInput = {
+  category?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   productId?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['Int']>;
   userId?: Maybe<Scalars['String']>;
 };
 
 export type UpdateProductInput = {
-  categoryId?: Maybe<Scalars['String']>;
+  category?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   discount?: Maybe<Scalars['Float']>;
   id: Scalars['String'];
