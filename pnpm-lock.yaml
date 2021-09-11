@@ -12,6 +12,7 @@ specifiers:
   '@graphql-codegen/typescript': 2.1.2
   '@graphql-codegen/typescript-operations': 2.1.2
   '@graphql-codegen/typescript-react-apollo': 3.1.2
+  '@graphql-codegen/typescript-react-query': ^2.1.2
   '@types/react': 17.0.19
   eslint: 7.32.0
   eslint-config-next: 11.1.0
@@ -45,6 +46,7 @@ devDependencies:
   '@graphql-codegen/typescript': 2.1.2_graphql@15.5.1
   '@graphql-codegen/typescript-operations': 2.1.2_graphql@15.5.1
   '@graphql-codegen/typescript-react-apollo': 3.1.2_graphql@15.5.1
+  '@graphql-codegen/typescript-react-query': 2.1.2_graphql@15.5.1
   '@types/react': 17.0.19
   eslint: 7.32.0
   eslint-config-next: 11.1.0_5976364cb0ac16872ff3eea1a55e5ca2
@@ -1683,6 +1685,22 @@ packages:
 
   /@graphql-codegen/typescript-react-apollo/3.1.2_graphql@15.5.1:
     resolution: {integrity: sha512-y7ijSNmDJoV7BNc3JedL0EgznXzr3xXnWljZ4xuBpviP9pNSk8DX+ZNQdT/b50eLAKC1Fjd/B3WnoNK7gob8hQ==}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
+      graphql-tag: ^2.0.0
+    dependencies:
+      '@graphql-codegen/plugin-helpers': 2.1.1_graphql@15.5.1
+      '@graphql-codegen/visitor-plugin-common': 2.1.2_graphql@15.5.1
+      auto-bind: 4.0.0
+      change-case-all: 1.0.14
+      graphql: 15.5.1
+      tslib: 2.3.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /@graphql-codegen/typescript-react-query/2.1.2_graphql@15.5.1:
+    resolution: {integrity: sha512-eOi3Yd3lfjmtXKeRC4WNh1cxyQ4sZ1tGLAU4CARaKq0lkaVrYG5Qae68Q9BbGUvSio9seg4VQZNOv16LfsdwRg==}
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
       graphql-tag: ^2.0.0

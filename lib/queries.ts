@@ -55,3 +55,13 @@ export const productQuery = gql`
     }
   }
 `;
+
+export const userCartQuery = gql`
+  query Query($userId: String!) {
+    userCart(id: $userId) {
+      id
+      createdAt
+      status
+    }
+  }
+`;

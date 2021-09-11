@@ -30,3 +30,18 @@ export const signInMutation = gql`
     }
   }
 `;
+
+export const createCartMutation = gql`
+  mutation Mutation($createCartInput: CreateCartInput!) {
+    createCart(createCartInput: $createCartInput) {
+      id
+      product {
+        id
+        name
+        description
+        price
+        discount
+      }
+    }
+  }
+`;
