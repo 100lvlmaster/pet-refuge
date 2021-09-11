@@ -9,20 +9,29 @@ import {
   DrawerCloseButton,
   Input,
   useToast,
+  Text,
 } from "@chakra-ui/react";
 
 import { useQuery } from "@apollo/client";
 import { userCartQuery } from "lib/queries";
+import { userStore } from "lib/auth";
+import { Cart } from "src/generated/graphql";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
 export const CartDrawer = ({ isOpen, onClose }: Props) => {
+  const token = userStore((state) => state.token);
   const toast = useToast();
-  const { data } = useQuery(userCartQuery, {
+  ///
+  const { data }: { data?: { userCart: Cart[] } } = useQuery(userCartQuery, {
+    skip: typeof token === "undefined",
+    variables: {
+      userId: token?.user?.id,
+    },
     onCompleted: async (data) => {
-      console.log(data);
+      console.log(data.userCart);
     },
     onError: (err) => {
       console.log(err);
@@ -38,19 +47,21 @@ export const CartDrawer = ({ isOpen, onClose }: Props) => {
       });
     },
   });
+  ///
   return (
-    <Drawer
-      isOpen={isOpen}
-      placement="right"
-      onClose={onClose}
-      // finalFocusRef={btnRef}
-    >
+    <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />
         <DrawerHeader>Cart</DrawerHeader>
 
-        <DrawerBody>{/* <Input placeholder="Type here..." /> */}</DrawerBody>
+        <DrawerBody>
+          {data?.userCart ? (
+            <Text>Cart is empty</Text>
+          ) : (
+            data?.userCart.map((e) => <Text key={e.id}>{e.product.name}</Text>)
+          )}
+        </DrawerBody>
 
         <DrawerFooter>
           <Button colorScheme="blue" textColor="white">

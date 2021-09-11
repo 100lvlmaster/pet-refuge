@@ -1,13 +1,8 @@
 import {
   Spinner,
-  Flex,
-  Box,
   Text,
   Image,
   VStack,
-  useDisclosure,
-  Spacer,
-  Input,
   Button,
   HStack,
   useToast,
@@ -49,6 +44,7 @@ export const ProductPanel = ({ product }: { product: Product }) => {
         <VStack w="36">
           {product.mediaUrl.map((e, i) => (
             <Image
+              borderRadius="sm"
               onClick={() => handleImageClick(i)}
               key={i}
               src={e}
@@ -57,6 +53,7 @@ export const ProductPanel = ({ product }: { product: Product }) => {
           ))}
         </VStack>
         <Image
+          borderRadius="md"
           height="10rem"
           src={product.mediaUrl[imageIndex]}
           alt={product.mediaUrl[imageIndex]}
@@ -65,12 +62,25 @@ export const ProductPanel = ({ product }: { product: Product }) => {
           <Text fontSize="lg" fontWeight="bold">
             {product.name}
           </Text>
-          <Text>{product.description}.</Text>
+          <Text fontSize="xs">{product.description}.</Text>
           <HStack>
             <Text>Price: </Text>
             <Text textColor="green" fontWeight="bold">
               {product.price} ₹
             </Text>
+            <Button
+              spinner={<Spinner />}
+              bgColor="black"
+              textColor="white"
+              borderWidth={1}
+              _hover={{
+                bg: "white",
+                textColor: "black",
+                borderColor: "black",
+              }}
+            >
+              Buy
+            </Button>
           </HStack>
           <HStack>
             <Text>Discount: </Text>
@@ -79,21 +89,6 @@ export const ProductPanel = ({ product }: { product: Product }) => {
             </Text>
           </HStack>
         </VStack>
-        <HStack>
-          <Button
-            spinner={<Spinner />}
-            bgColor="black"
-            textColor="white"
-            borderWidth={1}
-            _hover={{
-              bg: "white",
-              textColor: "black",
-              borderColor: "black",
-            }}
-          >
-            Add to cart
-          </Button>
-        </HStack>
       </HStack>
     </VStack>
   );

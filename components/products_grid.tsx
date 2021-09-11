@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { productsQuery } from "lib/queries";
 import { Product } from "lib/types";
-import { Spinner, Image, Box, Grid, Text } from "@chakra-ui/react";
+import { Spinner, Image, Box, Grid, Text, SimpleGrid } from "@chakra-ui/react";
 import NextLink from "next/link";
 export const ProductsGrid = () => {
   const { loading, error, data } =
@@ -10,10 +10,10 @@ export const ProductsGrid = () => {
     return <Spinner />;
   }
   return (
-    <Grid
+    <SimpleGrid
       w="full"
       h="full"
-      templateColumns="repeat(5, 1fr)"
+      columns={{ base: 2, md: 3, lg: 5 }}
       gap="5"
       alignContent="center"
       placeContent="center"
@@ -38,6 +38,6 @@ export const ProductsGrid = () => {
           </a>
         </NextLink>
       ))}
-    </Grid>
+    </SimpleGrid>
   );
 };
