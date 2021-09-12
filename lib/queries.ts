@@ -65,3 +65,23 @@ export const userCartQuery = gql`
     }
   }
 `;
+
+export const ordersByUser = gql`
+  query Query($userId: ID!) {
+    orders(id: $userId) {
+      id
+      userId
+      productId
+      quantity
+      status
+      product {
+        id
+        name
+        price
+        discount
+        description
+        mediaUrl
+      }
+    }
+  }
+`;

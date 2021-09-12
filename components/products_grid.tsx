@@ -23,9 +23,9 @@ export const ProductsGrid = () => {
           <a>
             <Box border="1px" borderRadius="5" borderColor="gray.300">
               <Image
-                fit="fill"
+                fit="cover"
+                w="full"
                 src={e.mediaUrl[0]}
-                height="200px"
                 alt={e.mediaUrl[0]}
               />
               <Text p="1" fontSize="10" fontWeight="bold">

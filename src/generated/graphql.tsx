@@ -36,7 +36,6 @@ export type ChangePasswordInput = {
 };
 
 export type CreateOrderInput = {
-  category: Scalars['String'];
   productId: Scalars['String'];
   quantity: Scalars['Int'];
   userId: Scalars['String'];
@@ -168,7 +167,10 @@ export type Order = {
   /** Identifies the date and time when the object was created. */
   createdAt: Scalars['Date'];
   id: Scalars['ID'];
+  product: Product;
   productId: Scalars['String'];
+  quantity: Scalars['Int'];
+  status: Status;
   /** Identifies the date and time when the object was last updated. */
   updatedAt: Scalars['Date'];
   userId: Scalars['String'];
@@ -272,6 +274,11 @@ export type QueryOrderArgs = {
 };
 
 
+export type QueryOrdersArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type QueryPostArgs = {
   postId: Scalars['String'];
 };
@@ -315,6 +322,13 @@ export type SignupInput = {
   password: Scalars['String'];
 };
 
+/** Current order status */
+export enum Status {
+  Bought = 'BOUGHT',
+  Cart = 'CART',
+  Delievered = 'DELIEVERED'
+}
+
 export type Store = {
   __typename?: 'Store';
   address: Scalars['String'];
@@ -338,7 +352,6 @@ export type Token = {
 };
 
 export type UpdateOrderInput = {
-  category?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   productId?: Maybe<Scalars['String']>;
   quantity?: Maybe<Scalars['Int']>;

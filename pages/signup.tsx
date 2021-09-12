@@ -9,8 +9,10 @@ import {
   Text,
   Flex,
   useToast,
+  Radio,
+  RadioGroup,
 } from "@chakra-ui/react";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, FieldProps } from "formik";
 import { SignUpInput } from "lib/types";
 import { useState } from "react";
 import NextLink from "next/link";
@@ -25,16 +27,16 @@ const SignUpPage = () => {
   const toast = useToast();
   const router = useRouter();
   const [obscureText, setObscureText] = useState(false);
-  const handleClick = () => setObscureText(!obscureText);
   const [setStore, initStore, token] = userStore((state) => [
     state.setToken,
     state.initToken,
     state.token,
   ]);
+  const handleClick = () => setObscureText(!obscureText);
   const [signUp] = useMutation(signUpMutation, {
     onCompleted: async (data) => {
       setStore(data.signup);
-      await toast({
+      toast({
         title: "Signed up successfully",
         status: "success",
         duration: 6000,
@@ -43,6 +45,7 @@ const SignUpPage = () => {
       router.push(`/`);
     },
     onError: (err) => {
+      console.log(err);
       if (err.message.toLowerCase().includes("bad request")) {
         err.message = "Invalid input, please check input and try again";
       }
@@ -101,6 +104,7 @@ const SignUpPage = () => {
             lastname: "",
             password: "",
             email: "",
+            role: "CUSTOMER",
           } as SignUpInput
         }
         onSubmit={async (values, actions) => {
@@ -186,6 +190,29 @@ const SignUpPage = () => {
                   <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                 </FormControl>
               )}
+            </Field>
+            <Field name="role">
+              {({ field, form }: FieldProps) => {
+                const { onChange, ...rest } = field;
+                return (
+                  <FormControl py="5" id="role">
+                    <FormLabel htmlFor="role">{"I am a ..."}</FormLabel>
+                    <RadioGroup
+                      {...rest}
+                      id="role"
+                      {...props}
+                      experimental_spaceX="2"
+                    >
+                      <Radio onChange={onChange} value={"CUSTOMER"}>
+                        Customer
+                      </Radio>
+                      <Radio onChange={onChange} value={"MERCHANT"}>
+                        Merchant
+                      </Radio>
+                    </RadioGroup>
+                  </FormControl>
+                );
+              }}
             </Field>
             <Button
               mt={4}

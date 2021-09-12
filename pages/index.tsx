@@ -2,7 +2,6 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { Tabs, TabPanel, TabPanels, useDisclosure } from "@chakra-ui/react";
 import { ProductsGrid } from "components/products_grid";
-import { CategoriesGrid } from "components/categories_grid";
 import { StoresGrid } from "components/stores_grid";
 import { userStore } from "lib/auth";
 import { useEffect } from "react";
@@ -31,9 +30,6 @@ const Home: NextPage = () => {
         <TabPanels>
           <TabPanel>
             <ProductsGrid />
-          </TabPanel>
-          <TabPanel>
-            <CategoriesGrid />
           </TabPanel>
           <TabPanel>
             <StoresGrid />

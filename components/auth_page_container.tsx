@@ -12,6 +12,7 @@ const AuthPageContainer = ({ children }: any) => {
         {children}
       </Flex>
       <Flex
+        display={{ base: "none", sm: "none", md: "flex" }}
         flex="1"
         bg="black"
         align="center"

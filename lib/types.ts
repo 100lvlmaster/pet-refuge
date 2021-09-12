@@ -1,3 +1,5 @@
+import { User } from "src/generated/graphql";
+
 export interface SignUpInput {
   firstname?: string;
   lastname?: string;
@@ -29,12 +31,7 @@ export interface Store extends BaseModel {
   staff: User[];
   product: Product[];
 }
-export interface User extends BaseModel {
-  email: string;
-  firstname?: string;
-  lastname?: string;
-  store?: Store;
-}
+
 export interface Category extends BaseModel {
   name: string;
   description: string;

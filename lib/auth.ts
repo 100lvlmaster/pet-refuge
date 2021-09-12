@@ -1,3 +1,4 @@
+import { Order } from "src/generated/graphql";
 import create from "zustand";
 import { Token } from "./types";
 const tokenKey = `localStoragetoken`;
@@ -12,6 +13,11 @@ const tokenFromStorage = () => {
   }
   return undefined;
 };
+
+interface OrdersStore {
+  orders: Order[];
+  updateOrders: (order: Order[]) => void;
+}
 
 interface UserStore {
   token: Token | undefined;
@@ -39,4 +45,12 @@ const userStore = create<UserStore>((set) => ({
     }),
 }));
 
-export { userStore };
+const ordersStore = create<OrdersStore>((set) => ({
+  orders: [],
+  updateOrders: (orders) =>
+    set((state) => {
+      state.orders = orders;
+    }),
+}));
+
+export { userStore, ordersStore };

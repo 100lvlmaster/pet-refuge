@@ -31,17 +31,13 @@ export const signInMutation = gql`
   }
 `;
 
-export const createCartMutation = gql`
-  mutation Mutation($createCartInput: CreateCartInput!) {
-    createCart(createCartInput: $createCartInput) {
+export const createOrderMutation = gql`
+  mutation CreateOrderMutation($orderInput: CreateOrderInput!) {
+    createOrder(createOrderInput: $orderInput) {
       id
-      product {
-        id
-        name
-        description
-        price
-        discount
-      }
+      userId
+      quantity
+      productId
     }
   }
 `;
