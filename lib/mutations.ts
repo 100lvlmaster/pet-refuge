@@ -21,9 +21,11 @@ export const signInMutation = gql`
       accessToken
       refreshToken
       user {
-        firstname
-        email
         id
+        firstname
+        lastname
+        role
+        email
         lastname
         createdAt
       }

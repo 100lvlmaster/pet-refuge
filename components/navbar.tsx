@@ -108,11 +108,15 @@ export const Navbar = ({ showTabs = true }: Props) => {
           </MenuButton>
           <MenuList>
             <MenuItem onClick={onSignOut}>Sign Out</MenuItem>
-            <NextLink href="/admin">
-              <a>
-                <MenuItem>Admin</MenuItem>
-              </a>
-            </NextLink>
+            {token?.user?.role === "MERCHANT" ? (
+              <NextLink href="/admin">
+                <a>
+                  <MenuItem>Admin</MenuItem>
+                </a>
+              </NextLink>
+            ) : (
+              ""
+            )}
           </MenuList>
         </Menu>
       ) : (
